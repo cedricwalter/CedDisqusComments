@@ -26,5 +26,3 @@ You need to [register](https://www.galaxiis.com/index.php/member-access?view=reg
 ### Premium version
 
 You need to [register](https://www.galaxiis.com/index.php/member-access?view=registration) for free, you need a [valid license](https://www.galaxiis.com/ceddisquscomments-subscribe/) to see the [download link](https://www.galaxiis.com/ceddisquscomments-download-club/)
-
-https://www.galaxiis.com/ceddisquscomments-demo/
