@@ -15,19 +15,28 @@ defined('_JEXEC') or die('Restricted access');
 
 class plgContentCedDisqusComments extends JPlugin
 {
-    public function __construct(&$subject, $config)
-    {
-        parent::__construct($subject, $config);
-        $this->loadLanguage();
-    }
+    /**
+     * Load the language file on instantiation.
+     *
+     * @var    boolean
+     * @since  3.1
+     */
+    protected $autoloadLanguage = true;
 
     public function onContentPrepare($context, &$row, &$params, $page = 0)
     {
         //Do not run in admin area and non HTML  (rss, json, error)
         $app = JFactory::getApplication();
-        if ($app->isAdmin() || JFactory::getDocument()->getType() !== 'html') {
-            return true;
+        if ($app->isClient('administrator') || JFactory::getDocument()->getType() !== 'html') {
+            return;
         }
+
+//        $parts = explode('.', $context);
+//
+//        if ($parts[0] !== 'com_content')
+//        {
+//            return false;
+//        }
 
         $print = JFactory::getApplication()->input->get('print') == 1;
         $isActive = JFactory::getApplication()->input->getWord('view') == 'article' && $context == 'com_content.article' && !$print;
@@ -35,15 +44,15 @@ class plgContentCedDisqusComments extends JPlugin
             $this->addWidget($row, true);
         }
 
-        return true;
+        return;
     }
 
     public function onContentAfterDisplay($context, &$row, &$params, $page = 0)
     {
         //Do not run in admin area
         $app = JFactory::getApplication();
-        if ($app->isAdmin()) {
-            return true;
+        if ($app->isClient('administrator')) {
+            return;
         }
 
 
@@ -54,7 +63,7 @@ class plgContentCedDisqusComments extends JPlugin
             }
         }
 
-        return true;
+        return;
     }
 
     private function addWidget(&$row, $view)
@@ -74,12 +83,12 @@ class plgContentCedDisqusComments extends JPlugin
                     var disqus_shortname = '".$shortName."';
                     (function() {
                         var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-                        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+                        dsq.src = 'https://' + disqus_shortname + '.disqus.com/embed.js';
                         (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
                     })();
                 </script>
                 <noscript>Please enable JavaScript to view the <a href=\"http://disqus.com/?ref_noscript\">comments powered by Disqus.</a></noscript>
-                <a href=\"http://disqus.com\" class=\"dsq-brlink\">comments powered by <span class=\"logo-disqus\">Disqus</span></a>";
+                <a href=\"https://disqus.com\" class=\"dsq-brlink\">comments powered by <span class=\"logo-disqus\">Disqus</span></a>";
 
             $row->text .= $output;
         } else {
@@ -92,7 +101,7 @@ class plgContentCedDisqusComments extends JPlugin
 
                 //use a javascript to ensure css inside is load only once and defer/async
                 $document->addScriptVersion(Juri::base() .'media/plg_content_ceddisquscomments/js.js');
-                $document->addStyleSheet('//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css');
+                $document->addStyleSheet('//netdna.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css');
 
                 $icon = $this->params->get('icon', 'fa-comment');
                 $iconSize = $this->params->get('icon-size', '');
@@ -104,7 +113,7 @@ class plgContentCedDisqusComments extends JPlugin
                     (function () {
                         var s = document.createElement('script'); s.async = true;
                         s.type = 'text/javascript';
-                        s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+                        s.src = 'https://' + disqus_shortname + '.disqus.com/count.js';
                         (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
                     }());
                     </script>

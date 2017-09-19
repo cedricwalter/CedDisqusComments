@@ -10,4 +10,4 @@ function loadAwesomeCSS(e, t, n) {
         i.media = n || "all"
     })
 };
-loadAwesomeCSS("//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css");
+loadAwesomeCSS("//netdna.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css");
